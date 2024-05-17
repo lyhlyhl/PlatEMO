@@ -65,12 +65,17 @@ classdef TSOP < PROBLEM
                             tempG.Edges.flow(j) = tempG.Edges.flow(j) + 1;
                         end
                     end
+                    perroute = PopDec(k,((i-1)*76+1):i*76);
+                    if ~test(perroute,obj.G.fft, obj.G.fft(i,1), obj.G.fft(i,2))
+                        PopCon(k,:) = 1;
+                    end
                 end
                 for i = 1:76
                     if tempG.Edges.flow(i) > tempG.Edges.capacity(i)
                         PopCon(k,:) = 1;
                     end
                 end
+
             end       
         end
         function PopObj = CalObj(obj, PopDec)
