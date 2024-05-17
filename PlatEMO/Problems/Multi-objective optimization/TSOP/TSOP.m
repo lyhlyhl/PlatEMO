@@ -65,16 +65,28 @@ classdef TSOP < PROBLEM
                             tempG.Edges.flow(j) = tempG.Edges.flow(j) + 1;
                         end
                     end
-                    perroute = PopDec(k,((i-1)*76+1):i*76);
-                    if ~test(perroute,obj.G.fft, obj.G.fft(i,1), obj.G.fft(i,2))
-                        PopCon(k,:) = 1;
-                    end
                 end
                 for i = 1:76
                     if tempG.Edges.flow(i) > tempG.Edges.capacity(i)
                         PopCon(k,:) = 1;
                     end
                 end
+                
+                %计算道路合理性
+                count = 0;
+                for i = 1:24
+                    for j = 1:24
+                        times = obj.od(i,j);
+                        for w = 1:times
+                            count = count + 1;
+                            perroute = PopDec(k,(((count)-1)*76+1):count*76);
+                            if ~routecheck(perroute,obj.fft, i, j)
+                                PopCon(k,:) = 1;
+                            end
+                        end
+                    end
+                end
+                disp(count)
 
             end       
         end

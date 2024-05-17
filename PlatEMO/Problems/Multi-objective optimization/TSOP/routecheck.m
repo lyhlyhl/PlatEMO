@@ -1,4 +1,4 @@
-function result = test(myroute,myfft, node1, node2)
+function result = routecheck(myroute,myfft, node1, node2)
     fft = myfft;
     % 创建完整图
     % 创建子图
@@ -16,10 +16,10 @@ function result = test(myroute,myfft, node1, node2)
     [dist, ~, ~] = shortestpath(subG, node1, node2);
     result = 1;
     if length(dist) == 0
-        disp("第一个");
+        %disp("第一个");
         result = 0;
     elseif length(dist) - 1 ~= pathnum
-        disp("第二个");
+        %disp("第二个");
         result = 0;
     end
     return
