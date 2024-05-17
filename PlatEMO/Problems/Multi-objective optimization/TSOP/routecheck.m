@@ -15,12 +15,16 @@ function result = routecheck(myroute,myfft, node1, node2)
     % 使用 BFS 从 node1 检查是否能到 node2
     [dist, ~, ~] = shortestpath(subG, node1, node2);
     result = 1;
-    if length(dist) == 0
-        %disp("第一个");
-        result = 0;
-    elseif length(dist) - 1 ~= pathnum
-        %disp("第二个");
-        result = 0;
+    if findnode(subG,node1) && findnode(subG,node2)
+        if length(dist) == 0
+            %disp("第一个");
+            result = 0;
+        elseif length(dist) - 1 ~= pathnum
+            %disp("第二个");
+            result = 0;
+        end
+    else
+        result = 0
     end
     return
 end
