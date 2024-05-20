@@ -57,7 +57,7 @@ classdef TSOP < PROBLEM
         end
         function PopCon = CalCon(obj,PopDec)
             PopCon = zeros(size(PopDec,1),1);
-            for k = 1:size(PopDec,1) %遍历每个种群
+            parfor k = 1:size(PopDec,1) %遍历每个种群
                 tempG = obj.G; %定义一个临时的图
                 for i = 1:3606  %定义3606辆同路车
                     for j = 1:76    %计算每辆车的路径
@@ -91,8 +91,8 @@ classdef TSOP < PROBLEM
             end       
         end
         function PopObj = CalObj(obj, PopDec)
-            PopObj = zeros(size(PopDec,1),2);
-            for k = 1:size(PopDec,1) %遍历每个种群
+            tempobj = zeros(size(PopDec,1),2);
+            parfor k = 1:size(PopDec,1) %遍历每个种群
                 tempG = obj.G; %定义一个临时的图
                 minOS = 0; %系统最优和用户均衡目标值
                 minEU = 0;
@@ -113,10 +113,9 @@ classdef TSOP < PROBLEM
                     % 计算个人最优
                     minEU = minEU + tempG.Edges.fft(i)*(x_a + ((obj.alpha * C_a)/(obj.beta + 1))*((x_a/C_a)^(obj.alpha+1)));
                 end
-                PopObj(k,1) = minOS;
-                PopObj(k,2) = minEU;
+                tempobj(k,:) = [minOS,minEU];
             end
-            
+            PopObj = tempobj;
         end
               
         
